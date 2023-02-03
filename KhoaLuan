@@ -1,0 +1,204 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyP4c49PIszKi/eTOvCqU9YP",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/DoanNguyenNhatLinh/Dubao/blob/main/KhoaLuan\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "32U9jOBbsRlz",
+        "outputId": "cdf69fb4-4616-4a87-bfe4-fc2426dc6f93"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/\n",
+            "Requirement already satisfied: darts in /usr/local/lib/python3.8/dist-packages (0.23.1)\n",
+            "Requirement already satisfied: pytorch-lightning>=1.5.0 in /usr/local/lib/python3.8/dist-packages (from darts) (1.9.0)\n",
+            "Requirement already satisfied: prophet>=1.1.1 in /usr/local/lib/python3.8/dist-packages (from darts) (1.1.2)\n",
+            "Requirement already satisfied: torch>=1.8.0 in /usr/local/lib/python3.8/dist-packages (from darts) (1.13.1+cu116)\n",
+            "Requirement already satisfied: statsforecast>=1.0.0 in /usr/local/lib/python3.8/dist-packages (from darts) (1.4.0)\n",
+            "Requirement already satisfied: xgboost>=1.6.0 in /usr/local/lib/python3.8/dist-packages (from darts) (1.7.3)\n",
+            "Requirement already satisfied: numpy>=1.19.0 in /usr/local/lib/python3.8/dist-packages (from darts) (1.21.6)\n",
+            "Requirement already satisfied: scikit-learn>=1.0.1 in /usr/local/lib/python3.8/dist-packages (from darts) (1.0.2)\n",
+            "Requirement already satisfied: tbats>=1.1.0 in /usr/local/lib/python3.8/dist-packages (from darts) (1.1.2)\n",
+            "Requirement already satisfied: matplotlib>=3.3.0 in /usr/local/lib/python3.8/dist-packages (from darts) (3.6.3)\n",
+            "Requirement already satisfied: scipy>=1.3.2 in /usr/local/lib/python3.8/dist-packages (from darts) (1.7.3)\n",
+            "Requirement already satisfied: statsmodels>=0.13.0 in /usr/local/lib/python3.8/dist-packages (from darts) (0.13.5)\n",
+            "Requirement already satisfied: pmdarima>=1.8.0 in /usr/local/lib/python3.8/dist-packages (from darts) (2.0.2)\n",
+            "Requirement already satisfied: catboost>=1.0.6 in /usr/local/lib/python3.8/dist-packages (from darts) (1.1.1)\n",
+            "Requirement already satisfied: tqdm>=4.60.0 in /usr/local/lib/python3.8/dist-packages (from darts) (4.64.1)\n",
+            "Requirement already satisfied: pyod>=0.9.5 in /usr/local/lib/python3.8/dist-packages (from darts) (1.0.7)\n",
+            "Requirement already satisfied: xarray>=0.17.0 in /usr/local/lib/python3.8/dist-packages (from darts) (2022.12.0)\n",
+            "Requirement already satisfied: nfoursid>=1.0.0 in /usr/local/lib/python3.8/dist-packages (from darts) (1.0.1)\n",
+            "Requirement already satisfied: pandas>=1.0.5 in /usr/local/lib/python3.8/dist-packages (from darts) (1.3.5)\n",
+            "Requirement already satisfied: lightgbm>=3.2.0 in /usr/local/lib/python3.8/dist-packages (from darts) (3.3.5)\n",
+            "Requirement already satisfied: holidays>=0.11.1 in /usr/local/lib/python3.8/dist-packages (from darts) (0.19)\n",
+            "Requirement already satisfied: joblib>=0.16.0 in /usr/local/lib/python3.8/dist-packages (from darts) (1.2.0)\n",
+            "Requirement already satisfied: shap>=0.40.0 in /usr/local/lib/python3.8/dist-packages (from darts) (0.41.0)\n",
+            "Requirement already satisfied: requests>=2.22.0 in /usr/local/lib/python3.8/dist-packages (from darts) (2.25.1)\n",
+            "Requirement already satisfied: graphviz in /usr/local/lib/python3.8/dist-packages (from catboost>=1.0.6->darts) (0.10.1)\n",
+            "Requirement already satisfied: six in /usr/local/lib/python3.8/dist-packages (from catboost>=1.0.6->darts) (1.15.0)\n",
+            "Requirement already satisfied: plotly in /usr/local/lib/python3.8/dist-packages (from catboost>=1.0.6->darts) (5.5.0)\n",
+            "Requirement already satisfied: korean-lunar-calendar in /usr/local/lib/python3.8/dist-packages (from holidays>=0.11.1->darts) (0.3.1)\n",
+            "Requirement already satisfied: PyMeeus in /usr/local/lib/python3.8/dist-packages (from holidays>=0.11.1->darts) (0.5.12)\n",
+            "Requirement already satisfied: convertdate>=2.3.0 in /usr/local/lib/python3.8/dist-packages (from holidays>=0.11.1->darts) (2.4.0)\n",
+            "Requirement already satisfied: hijri-converter in /usr/local/lib/python3.8/dist-packages (from holidays>=0.11.1->darts) (2.2.4)\n",
+            "Requirement already satisfied: python-dateutil in /usr/local/lib/python3.8/dist-packages (from holidays>=0.11.1->darts) (2.8.2)\n",
+            "Requirement already satisfied: wheel in /usr/local/lib/python3.8/dist-packages (from lightgbm>=3.2.0->darts) (0.38.4)\n",
+            "Requirement already satisfied: kiwisolver>=1.0.1 in /usr/local/lib/python3.8/dist-packages (from matplotlib>=3.3.0->darts) (1.4.4)\n",
+            "Requirement already satisfied: packaging>=20.0 in /usr/local/lib/python3.8/dist-packages (from matplotlib>=3.3.0->darts) (23.0)\n",
+            "Requirement already satisfied: pyparsing>=2.2.1 in /usr/local/lib/python3.8/dist-packages (from matplotlib>=3.3.0->darts) (3.0.9)\n",
+            "Requirement already satisfied: cycler>=0.10 in /usr/local/lib/python3.8/dist-packages (from matplotlib>=3.3.0->darts) (0.11.0)\n",
+            "Requirement already satisfied: contourpy>=1.0.1 in /usr/local/lib/python3.8/dist-packages (from matplotlib>=3.3.0->darts) (1.0.7)\n",
+            "Requirement already satisfied: fonttools>=4.22.0 in /usr/local/lib/python3.8/dist-packages (from matplotlib>=3.3.0->darts) (4.38.0)\n",
+            "Requirement already satisfied: pillow>=6.2.0 in /usr/local/lib/python3.8/dist-packages (from matplotlib>=3.3.0->darts) (7.1.2)\n",
+            "Requirement already satisfied: pytz>=2017.3 in /usr/local/lib/python3.8/dist-packages (from pandas>=1.0.5->darts) (2022.7.1)\n",
+            "Requirement already satisfied: setuptools!=50.0.0,>=38.6.0 in /usr/local/lib/python3.8/dist-packages (from pmdarima>=1.8.0->darts) (57.4.0)\n",
+            "Requirement already satisfied: urllib3 in /usr/local/lib/python3.8/dist-packages (from pmdarima>=1.8.0->darts) (1.24.3)\n",
+            "Requirement already satisfied: Cython!=0.29.18,!=0.29.31,>=0.29 in /usr/local/lib/python3.8/dist-packages (from pmdarima>=1.8.0->darts) (0.29.33)\n",
+            "Requirement already satisfied: cmdstanpy>=1.0.4 in /usr/local/lib/python3.8/dist-packages (from prophet>=1.1.1->darts) (1.1.0)\n",
+            "Requirement already satisfied: LunarCalendar>=0.0.9 in /usr/local/lib/python3.8/dist-packages (from prophet>=1.1.1->darts) (0.0.9)\n",
+            "Requirement already satisfied: numba>=0.51 in /usr/local/lib/python3.8/dist-packages (from pyod>=0.9.5->darts) (0.56.4)\n",
+            "Requirement already satisfied: lightning-utilities>=0.4.2 in /usr/local/lib/python3.8/dist-packages (from pytorch-lightning>=1.5.0->darts) (0.6.0.post0)\n",
+            "Requirement already satisfied: typing-extensions>=4.0.0 in /usr/local/lib/python3.8/dist-packages (from pytorch-lightning>=1.5.0->darts) (4.4.0)\n",
+            "Requirement already satisfied: torchmetrics>=0.7.0 in /usr/local/lib/python3.8/dist-packages (from pytorch-lightning>=1.5.0->darts) (0.11.1)\n",
+            "Requirement already satisfied: PyYAML>=5.4 in /usr/local/lib/python3.8/dist-packages (from pytorch-lightning>=1.5.0->darts) (6.0)\n",
+            "Requirement already satisfied: fsspec[http]>2021.06.0 in /usr/local/lib/python3.8/dist-packages (from pytorch-lightning>=1.5.0->darts) (2023.1.0)\n",
+            "Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.8/dist-packages (from requests>=2.22.0->darts) (2022.12.7)\n",
+            "Requirement already satisfied: idna<3,>=2.5 in /usr/local/lib/python3.8/dist-packages (from requests>=2.22.0->darts) (2.10)\n",
+            "Requirement already satisfied: chardet<5,>=3.0.2 in /usr/local/lib/python3.8/dist-packages (from requests>=2.22.0->darts) (4.0.0)\n",
+            "Requirement already satisfied: threadpoolctl>=2.0.0 in /usr/local/lib/python3.8/dist-packages (from scikit-learn>=1.0.1->darts) (3.1.0)\n",
+            "Requirement already satisfied: slicer==0.0.7 in /usr/local/lib/python3.8/dist-packages (from shap>=0.40.0->darts) (0.0.7)\n",
+            "Requirement already satisfied: cloudpickle in /usr/local/lib/python3.8/dist-packages (from shap>=0.40.0->darts) (2.2.1)\n",
+            "Requirement already satisfied: patsy>=0.5.2 in /usr/local/lib/python3.8/dist-packages (from statsmodels>=0.13.0->darts) (0.5.3)\n",
+            "\u001b[31mERROR: Operation cancelled by user\u001b[0m\u001b[31m\n",
+            "\u001b[0m"
+          ]
+        }
+      ],
+      "source": [
+        "pip install darts\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "%matplotlib inline\n",
+        "\n",
+        "import pandas as pd\n",
+        "import numpy as np\n",
+        "import matplotlib.pyplot as plt\n",
+        "\n",
+        "from darts import TimeSeries\n",
+        "from darts.datasets import AirPassengersDataset"
+      ],
+      "metadata": {
+        "id": "7gjD70E5s9_o"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "series = AirPassengersDataset().load()\n",
+        "series.plot()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 413
+        },
+        "id": "orx7JNjCs99X",
+        "outputId": "9537082b-9b70-4f86-cf77-608065cca8ce"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "ImportError",
+          "evalue": "ignored",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mImportError\u001b[0m                               Traceback (most recent call last)",
+            "\u001b[0;32m/usr/local/lib/python3.8/dist-packages/IPython/core/formatters.py\u001b[0m in \u001b[0;36m__call__\u001b[0;34m(self, obj)\u001b[0m\n\u001b[1;32m    339\u001b[0m                 \u001b[0;32mpass\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    340\u001b[0m             \u001b[0;32melse\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 341\u001b[0;31m                 \u001b[0;32mreturn\u001b[0m \u001b[0mprinter\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mobj\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    342\u001b[0m             \u001b[0;31m# Finally look for special method names\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    343\u001b[0m             \u001b[0mmethod\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mget_real_method\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mobj\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mprint_method\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/local/lib/python3.8/dist-packages/IPython/core/pylabtools.py\u001b[0m in \u001b[0;36m<lambda>\u001b[0;34m(fig)\u001b[0m\n\u001b[1;32m    242\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    243\u001b[0m     \u001b[0;32mif\u001b[0m \u001b[0;34m'png'\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mformats\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 244\u001b[0;31m         \u001b[0mpng_formatter\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mfor_type\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mFigure\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;32mlambda\u001b[0m \u001b[0mfig\u001b[0m\u001b[0;34m:\u001b[0m \u001b[0mprint_figure\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mfig\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m'png'\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m**\u001b[0m\u001b[0mkwargs\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    245\u001b[0m     \u001b[0;32mif\u001b[0m \u001b[0;34m'retina'\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mformats\u001b[0m \u001b[0;32mor\u001b[0m \u001b[0;34m'png2x'\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mformats\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    246\u001b[0m         \u001b[0mpng_formatter\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mfor_type\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mFigure\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;32mlambda\u001b[0m \u001b[0mfig\u001b[0m\u001b[0;34m:\u001b[0m \u001b[0mretina_figure\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mfig\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m**\u001b[0m\u001b[0mkwargs\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/local/lib/python3.8/dist-packages/IPython/core/pylabtools.py\u001b[0m in \u001b[0;36mprint_figure\u001b[0;34m(fig, fmt, bbox_inches, **kwargs)\u001b[0m\n\u001b[1;32m    126\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    127\u001b[0m     \u001b[0mbytes_io\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mBytesIO\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 128\u001b[0;31m     \u001b[0mfig\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mcanvas\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mprint_figure\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mbytes_io\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m**\u001b[0m\u001b[0mkw\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    129\u001b[0m     \u001b[0mdata\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mbytes_io\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mgetvalue\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    130\u001b[0m     \u001b[0;32mif\u001b[0m \u001b[0mfmt\u001b[0m \u001b[0;34m==\u001b[0m \u001b[0;34m'svg'\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/local/lib/python3.8/dist-packages/matplotlib/backend_bases.py\u001b[0m in \u001b[0;36mprint_figure\u001b[0;34m(self, filename, dpi, facecolor, edgecolor, orientation, format, bbox_inches, **kwargs)\u001b[0m\n\u001b[1;32m   2089\u001b[0m         \u001b[0mReturns\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   2090\u001b[0m         \u001b[0;34m-\u001b[0m\u001b[0;34m-\u001b[0m\u001b[0;34m-\u001b[0m\u001b[0;34m-\u001b[0m\u001b[0;34m-\u001b[0m\u001b[0;34m-\u001b[0m\u001b[0;34m-\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m-> 2091\u001b[0;31m         \u001b[0mbool\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m   2092\u001b[0m             \u001b[0mWhether\u001b[0m \u001b[0mthe\u001b[0m \u001b[0mratio\u001b[0m \u001b[0mhas\u001b[0m \u001b[0mchanged\u001b[0m\u001b[0;34m.\u001b[0m \u001b[0mBackends\u001b[0m \u001b[0mmay\u001b[0m \u001b[0minterpret\u001b[0m \u001b[0mthis\u001b[0m \u001b[0;32mas\u001b[0m \u001b[0ma\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   2093\u001b[0m             \u001b[0msignal\u001b[0m \u001b[0mto\u001b[0m \u001b[0mresize\u001b[0m \u001b[0mthe\u001b[0m \u001b[0mwindow\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mrepaint\u001b[0m \u001b[0mthe\u001b[0m \u001b[0mcanvas\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;32mor\u001b[0m \u001b[0mchange\u001b[0m \u001b[0many\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/local/lib/python3.8/dist-packages/matplotlib/backend_bases.py\u001b[0m in \u001b[0;36m_get_renderer\u001b[0;34m(figure, print_method)\u001b[0m\n\u001b[1;32m   1558\u001b[0m         \u001b[0;32mtry\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   1559\u001b[0m             \u001b[0mprint_method\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mio\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mBytesIO\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m-> 1560\u001b[0;31m         \u001b[0;32mexcept\u001b[0m \u001b[0mDone\u001b[0m \u001b[0;32mas\u001b[0m \u001b[0mexc\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m   1561\u001b[0m             \u001b[0mrenderer\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mexc\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0margs\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   1562\u001b[0m             \u001b[0;32mreturn\u001b[0m \u001b[0mrenderer\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m/usr/local/lib/python3.8/dist-packages/matplotlib/backends/backend_agg.py\u001b[0m in \u001b[0;36mprint_png\u001b[0;34m(self, filename_or_obj, metadata, pil_kwargs, *args, **kwargs)\u001b[0m\n\u001b[1;32m    503\u001b[0m             \u001b[0mIf\u001b[0m \u001b[0;34m'Software'\u001b[0m \u001b[0;32mis\u001b[0m \u001b[0;32mnot\u001b[0m \u001b[0mgiven\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0man\u001b[0m \u001b[0mautogenerated\u001b[0m \u001b[0mvalue\u001b[0m \u001b[0;32mfor\u001b[0m \u001b[0mMatplotlib\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    504\u001b[0m             \u001b[0mwill\u001b[0m \u001b[0mbe\u001b[0m \u001b[0mused\u001b[0m\u001b[0;34m.\u001b[0m  \u001b[0mThis\u001b[0m \u001b[0mcan\u001b[0m \u001b[0mbe\u001b[0m \u001b[0mremoved\u001b[0m \u001b[0mby\u001b[0m \u001b[0msetting\u001b[0m \u001b[0mit\u001b[0m \u001b[0mto\u001b[0m \u001b[0;34m*\u001b[0m\u001b[0;32mNone\u001b[0m\u001b[0;34m*\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 505\u001b[0;31m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    506\u001b[0m             \u001b[0mFor\u001b[0m \u001b[0mmore\u001b[0m \u001b[0mdetails\u001b[0m \u001b[0msee\u001b[0m \u001b[0mthe\u001b[0m\u001b[0;31m \u001b[0m\u001b[0;31m`\u001b[0m\u001b[0mPNG\u001b[0m \u001b[0mspecification\u001b[0m\u001b[0;31m`\u001b[0m\u001b[0m_\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    507\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;31mImportError\u001b[0m: cannot import name '_png' from 'matplotlib' (/usr/local/lib/python3.8/dist-packages/matplotlib/__init__.py)"
+          ]
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/plain": [
+              "<Figure size 432x288 with 1 Axes>"
+            ]
+          },
+          "metadata": {
+            "needs_background": "light"
+          }
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "# Mục mới"
+      ],
+      "metadata": {
+        "id": "Hh0st1xsv2I9"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "Fw8c3zw7s91w"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "jYzW5aaws9rf"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
